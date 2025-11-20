@@ -718,7 +718,7 @@ OpenVoice is designed with privacy in mind:
 ## Support
 
 For issues, questions, or contributions:
-- GitHub Issues: https://github.com/yourusername/OpenVoice/issues
+- GitHub Issues: https://github.com/fzheng/OpenVoice/issues
 
 ---
 
