@@ -1,0 +1,29 @@
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libsndfile1 \
+    libmagic1 \
+    ffmpeg \
+    procps \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY backend/requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY backend/ .
+
+# Create directories for uploads and processed files
+RUN mkdir -p uploads processed
+
+# Run Celery worker
+# Reduced concurrency to 1 to minimize memory usage with DeepFilterNet model
+CMD ["celery", "-A", "celery_worker.celery_app", "worker", "--loglevel=info", "--concurrency=1"]
